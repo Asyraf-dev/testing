@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        form { max-width: 300px; margin: auto; }
+        input, select, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>Place Your Order</h2>
+    <form id="orderForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <select id="food">
+            <option value="Pizza">Pizza</option>
+            <option value="Burger">Burger</option>
+            <option value="Pasta">Pasta</option>
+        </select>
+        <input type="number" id="quantity" placeholder="Quantity" required min="1">
+        <button type="submit">Order Now</button>
+    </form>
+
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const food = document.getElementById("food").value;
+            const quantity = document.getElementById("quantity").value;
+
+            const orderData = { name, food, quantity };
+
+            // Google Sheets Web App URL
+            const googleSheetsURL = "https://script.google.com/macros/s/AKfycbwD23YU9a4oUU7ZGzFKfY-KVRtOQFrLPs40aSKXBu8/dev";
+
+            // Discord Webhook URL
+            const discordWebhookURL = "https://discordapp.com/api/webhooks/1331417003155525662/E95Ki79tNkhv8iJ40ztKknrgLpsyJxnqlkV2bhjP9oR20BhA4k6V7nlmHTCuarDeTi5c";
+
+            try {
+                // Send data to Google Sheets
+                await fetch(googleSheetsURL, {
+                    method: "POST",
+                    body: JSON.stringify(orderData),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                // Send order details to Discord
+                await fetch(discordWebhookURL, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        content: `📢 **New Order!**\n👤 Name: ${name}\n🍽 Food: ${food}\n🔢 Quantity: ${quantity}`
+                    }),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                alert("Order placed successfully!");
+                document.getElementById("orderForm").reset();
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to place order. Try again.");
+            }
+        });
+    </script>
+
+</body>
+</html>
