@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             total: totalPrice
         };
 
-        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbzLYb34qIw3M-dv-SXhO6Ep3zLOE2j-_jyUN5kWAfHnZ6IFL0YWGC30Wye2NtT8YNu1CQ/exec'; // Replace with your actual Google Apps Script URL
+        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbxsHGEFw9QBkvgMwQJINA6E8z-LtECIT04TLKKkyINv/dev'; // Replace with your actual Google Apps Script URL
         fetch(googleScriptURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
